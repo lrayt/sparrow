@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+// 创建订单 POST /api/v1/order/create
+message OrderCreateRequest{
+  // 商品ID @gotags: validate:"required"
+  string  product_id = 1;
+  // 商品数量 @gotags: validate:"required,gt=0"
+  uint32 count = 2;
+  // 地址ID @gotags: validate:"required"
+  string address_id = 3;
+}
+message OrderCreateResponse{
+  string msg = 1;
+  int32 code = 2;
+}

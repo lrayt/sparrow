@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+enum OrderStatus{
+  Order_Status_None = 0;
+  Order_Status_Unpaid = 1; // 未付款,
+  Order_Status_Paid = 2; // 已付款
+  Order_Status_Shipped = 3; // 已发货
+  Order_Status_Received = 4; // 已签收
+  Order_Status_ReturnRequest = 5; // 退货申请
+  Order_Status_ReturnDuring = 6; // 退货中
+  Order_Status_ReturnGoods = 7; // 已退货
+  Order_Status_Cancel = 8; // 取消交易
+}

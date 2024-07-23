@@ -1,0 +1,31 @@
+database:
+  scp-db:
+    Driver: "postgres"
+    User: "system"
+    Password: "gtis"
+    Host: "192.168.2.54"
+    Port: 54321
+    DBName: "test"
+    Charset: "UTF8"
+    ShowSql: true
+    SchemaName: "public"
+  test-db:
+    Driver: "mysql"
+    User: "root"
+    Password: "123456"
+    Host: "192.168.157.128"
+    Port: 54321
+    DBName: "test_db"
+    Charset: "UTF8"
+    ShowSql: true
+    SchemaName: "public"
+  oracle-db:
+    Driver: "oracle"
+    User: "test"
+    Password: "test"
+    Host: "192.168.157.128"
+    Port: 1521
+    DBName: "test_db"
+    Charset: "UTF8"
+    ShowSql: true
+    SchemaName: "public"
