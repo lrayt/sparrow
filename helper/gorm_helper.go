@@ -13,6 +13,7 @@ type DBDriver string
 const (
 	DBDriverMysql     DBDriver = "mysql"
 	DBDriverPostgresL          = "postgres"
+	DBDriverOracle             = "oracle"
 )
 
 type DBOptions struct {
