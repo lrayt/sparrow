@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"github.com/lrayt/sparrow"
-	"github.com/lrayt/sparrow/builder"
+	"github.com/lrayt/sparrow/helper"
 	"gorm.io/gorm"
 	"time"
 )
@@ -16,7 +16,7 @@ type DBManager struct {
 func (p *DBManager) Init() error {
 	var (
 		err     error
-		options = new(builder.DBOptions)
+		options = new(helper.DBOptions)
 	)
 	// cfg
 	err = sparrow.GConfigs().PackConf("database.test-db", options)
@@ -24,7 +24,7 @@ func (p *DBManager) Init() error {
 		return err
 	}
 	// gorm db
-	p.GormDB, err = builder.CreateGormDB(options)
+	p.GormDB, err = helper.CreateGormDB(options)
 	if err != nil {
 		return err
 	}
