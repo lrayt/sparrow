@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"os"
+	"sync"
 )
 
 type RunEnv string
@@ -11,6 +12,10 @@ const (
 	RunTestEnv  = "test"
 	RunProdEnv  = "prod"
 )
+
+func (e RunEnv) String() string {
+	return string(e)
+}
 
 func NewRunEnv(env string) RunEnv {
 	if env == "prod" {
@@ -29,6 +34,7 @@ type Env struct {
 	WorkDir       string
 	BuildVersion  string
 	VerifyLicense bool
+	Keys          sync.Map
 }
 
 // SetDefaultWorkDir 设置默认地址

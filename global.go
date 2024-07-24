@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"reflect"
 	"syscall"
 )
@@ -19,6 +20,9 @@ var (
 	app           = new(core.Application)
 )
 
+/**
+ * Initialize the program
+ */
 func InitApp(options ...core.Option) error {
 	app.Env = runtime.NewEnv(AppName, Version, VerifyLicense)
 	for _, option := range options {
@@ -41,7 +45,7 @@ func InitApp(options ...core.Option) error {
 			return err
 		}
 	}
-	// default configurator
+	// default ConfigProvider
 	if app.ConfigProvider == nil {
 		if provider, err := kit.NewYamlConfigProvider(app.Env); err != nil {
 			return err
@@ -49,7 +53,7 @@ func InitApp(options ...core.Option) error {
 			core.WithConfigurator(provider)(app)
 		}
 	}
-	// default logger
+	// default LoggerProvider
 	if app.LoggerProvider == nil {
 		if provider, err := kit.NewLocalFileLogProvider(app.Env); err != nil {
 			return err
@@ -60,6 +64,7 @@ func InitApp(options ...core.Option) error {
 	return nil
 }
 
+// SetupApp setup program called handler and starter run methed
 func SetupApp() {
 	var (
 		errChan    = make(chan error, 1)
@@ -105,12 +110,12 @@ func SetupApp() {
 	}
 }
 
-// GConfigs 全局配置
-func GConfigs() abstract.ConfigProvider {
+// GConfigProvider return the program config provider
+func GConfigProvider() abstract.ConfigProvider {
 	return app.ConfigProvider
 }
 
-// GLoggerProvider 全局日志
+// GLoggerProvider return the program logger provider
 func GLoggerProvider() abstract.LoggerProvider {
 	return app.LoggerProvider
 }
@@ -124,22 +129,34 @@ func GBuildVersion() string {
 	return app.Env.BuildVersion
 }
 
-func IsProdEnv() bool {
-	return app.Env.RunEnv == runtime.RunProdEnv
+// GWorkDir return the program running directory
+func GWorkDir() string {
+	return app.Env.WorkDir
 }
 
-func IsTestEnv() bool {
-	return app.Env.RunEnv == runtime.RunTestEnv
+// GResourceDir return to the program resource directory
+func GResourceDir() string {
+	return filepath.Join(app.Env.WorkDir, "resource")
 }
 
-func IsLocalEnv() bool {
-	return app.Env.RunEnv == runtime.RunLocalEnv
+// Set global variables
+func Set(key string, value any) {
+	app.Env.Keys.Store(key, value)
 }
 
-func GWorkDir() {
-
+// Get global variables
+func Get(key string) (any, bool) {
+	return app.Env.Keys.Load(key)
 }
 
-func GResourceDir() {
-
+// GetString global variables
+func GetString(key string) string {
+	value, exist := app.Env.Keys.Load(key)
+	if !exist {
+		return ""
+	}
+	if str, ok := value.(string); ok {
+		return str
+	}
+	return ""
 }
