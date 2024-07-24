@@ -30,15 +30,15 @@ func NewExampleServer(httpHandler *handler.HttpHandler, dbm *database.DBManager)
 	return &ExampleServer{HttpHandler: httpHandler}, nil
 }
 
-//func (s ExampleServer) Setup() {
-//	core.SetupApp()
-//}
+func (s ExampleServer) Setup() {
+	sparrow.SetupApp()
+}
 
 func main() {
-	_, cleanup, err := InitExampleServer()
+	svc, cleanup, err := InitExampleServer()
 	defer cleanup()
 	if err != nil {
 		log.Fatalf("服务启动失败,err:%s\n", err.Error())
 	}
-	//svc.Setup()
+	svc.Setup()
 }
