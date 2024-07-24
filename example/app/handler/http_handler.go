@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lrayt/sparrow/example/app/protobuf/pb"
 	"github.com/lrayt/sparrow/example/app/service"
-	"github.com/lrayt/sparrow/pkg/http_helper"
+	"github.com/lrayt/sparrow/helper"
 	"io"
 	"net/http"
 	"time"
@@ -34,12 +34,12 @@ func NewHttpHandler(orderInfoService *service.OrderInfoService) *HttpHandler {
 func (h HttpHandler) orderRouter() {
 	rg := h.api.Group("/order")
 	{
-		rg.POST("/create", http_helper.GinHandle(&pb.OrderCreateRequest{}, h.orderInfoService.CreateOrder))
+		rg.POST("/create", helper.GinHandle(&pb.OrderCreateRequest{}, h.orderInfoService.CreateOrder))
 	}
 }
 
 func (h *HttpHandler) Run() error {
-	h.api.Use(http_helper.LoggerMiddleware())
+	h.api.Use(helper.LoggerMiddleware())
 	h.orderRouter()
 	if err := h.srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		return err
