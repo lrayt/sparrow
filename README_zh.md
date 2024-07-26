@@ -10,6 +10,7 @@ go mod init github.com/xxx/you_server
 ~~~
 
 ## 2、工程结构
+~~~shell
 your-server
 └─── cmd
 │    └─── server_name
@@ -44,6 +45,7 @@ your-server
 │    └─── xxx_tools
 └─── Makefile
 └─── Dockerfile
+~~~
 
 ## 3、构建
 ~~~shell
